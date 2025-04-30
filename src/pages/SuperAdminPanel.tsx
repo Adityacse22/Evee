@@ -8,7 +8,7 @@ import { SuperAdminStations } from "@/components/admin/SuperAdminStations";
 import { SuperAdminUsers } from "@/components/admin/SuperAdminUsers";
 import { SuperAdminReports } from "@/components/admin/SuperAdminReports";
 import { SuperAdminComplaints } from "@/components/admin/SuperAdminComplaints";
-import { Shield, Users, Report, AlertTriangle } from "lucide-react";
+import { Shield, Users, AlertTriangle, BarChart } from "lucide-react";
 
 export default function SuperAdminPanel() {
   const { user } = useAuth();
@@ -61,7 +61,7 @@ export default function SuperAdminPanel() {
               <span>Complaints</span>
             </TabsTrigger>
             <TabsTrigger value="reports" className="flex items-center gap-2">
-              <Report className="h-4 w-4" />
+              <BarChart className="h-4 w-4" />
               <span>Reports</span>
             </TabsTrigger>
           </TabsList>
