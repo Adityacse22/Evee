@@ -1,0 +1,143 @@
+
+import { Station, PlugType, ChargingSpeed, Booking, BookingStatus } from "../types";
+
+export const mockStations: Station[] = [
+  {
+    id: "1",
+    name: "Central Park EV Hub",
+    location: { lat: 40.7829, lng: -73.9654 },
+    address: "Central Park North, New York, NY",
+    plugTypes: [PlugType.TYPE_2, PlugType.CCS],
+    chargingSpeed: [ChargingSpeed.LEVEL_2, ChargingSpeed.DC_FAST],
+    price: 0.35,
+    priceUnit: "kWh",
+    availability: { total: 8, available: 3 },
+    waitTime: 15,
+    distance: 1.2,
+    rating: 4.5,
+    amenities: ["Restrooms", "Coffee Shop", "WiFi"],
+    images: ["/placeholder.svg"],
+  },
+  {
+    id: "2",
+    name: "Downtown Express Charger",
+    location: { lat: 40.7580, lng: -73.9855 },
+    address: "123 Broadway, New York, NY",
+    plugTypes: [PlugType.TYPE_2, PlugType.CHAdeMO, PlugType.CCS],
+    chargingSpeed: [ChargingSpeed.LEVEL_2, ChargingSpeed.DC_FAST],
+    price: 0.40,
+    priceUnit: "kWh",
+    availability: { total: 12, available: 0 },
+    waitTime: 45,
+    distance: 2.5,
+    rating: 4.2,
+    amenities: ["Restrooms", "Shopping", "Restaurants"],
+    images: ["/placeholder.svg"],
+  },
+  {
+    id: "3",
+    name: "Tesla Supercharger - SoHo",
+    location: { lat: 40.7248, lng: -74.0018 },
+    address: "456 West Broadway, New York, NY",
+    plugTypes: [PlugType.TESLA],
+    chargingSpeed: [ChargingSpeed.DC_FAST],
+    price: 0.36,
+    priceUnit: "kWh",
+    availability: { total: 10, available: 6 },
+    waitTime: 0,
+    distance: 3.7,
+    rating: 4.8,
+    amenities: ["Restrooms"],
+    images: ["/placeholder.svg"],
+  },
+  {
+    id: "4",
+    name: "Brooklyn Bridge Charger",
+    location: { lat: 40.7061, lng: -73.9969 },
+    address: "78 Brooklyn Bridge Blvd, Brooklyn, NY",
+    plugTypes: [PlugType.TYPE_1, PlugType.TYPE_2],
+    chargingSpeed: [ChargingSpeed.LEVEL_1, ChargingSpeed.LEVEL_2],
+    price: 0.25,
+    priceUnit: "kWh",
+    availability: { total: 6, available: 2 },
+    waitTime: 10,
+    distance: 4.1,
+    rating: 3.9,
+    amenities: ["Park", "Restaurants"],
+    images: ["/placeholder.svg"],
+  },
+  {
+    id: "5",
+    name: "Midtown Fast Charge",
+    location: { lat: 40.7549, lng: -73.9840 },
+    address: "555 5th Avenue, New York, NY",
+    plugTypes: [PlugType.CCS, PlugType.CHAdeMO],
+    chargingSpeed: [ChargingSpeed.DC_FAST],
+    price: 0.45,
+    priceUnit: "kWh",
+    availability: { total: 4, available: 4 },
+    waitTime: 0,
+    distance: 1.8,
+    rating: 4.6,
+    amenities: ["Restrooms", "Coffee Shop", "Shopping", "WiFi"],
+    images: ["/placeholder.svg"],
+  },
+];
+
+export const mockBookings: Booking[] = [
+  {
+    id: "b1",
+    userId: "u1",
+    stationId: "1",
+    plugType: PlugType.TYPE_2,
+    startTime: "2025-04-30T14:00:00Z",
+    endTime: "2025-04-30T15:30:00Z",
+    status: BookingStatus.CONFIRMED,
+    createdAt: "2025-04-29T09:15:00Z",
+    totalPrice: 18.75,
+  },
+  {
+    id: "b2",
+    userId: "u1",
+    stationId: "3",
+    plugType: PlugType.TESLA,
+    startTime: "2025-04-27T10:00:00Z",
+    endTime: "2025-04-27T11:00:00Z",
+    status: BookingStatus.COMPLETED,
+    createdAt: "2025-04-26T16:30:00Z",
+    totalPrice: 21.60,
+  },
+  {
+    id: "b3",
+    userId: "u1",
+    stationId: "5",
+    plugType: PlugType.CCS,
+    startTime: "2025-05-02T18:00:00Z",
+    endTime: "2025-05-02T19:30:00Z",
+    status: BookingStatus.PENDING,
+    createdAt: "2025-04-30T12:00:00Z",
+    totalPrice: 30.38,
+  }
+];
+
+export const mockUser = {
+  id: "u1",
+  name: "Alex Johnson",
+  email: "alex@example.com",
+  profileImage: "/placeholder.svg",
+  vehicle: {
+    make: "Tesla",
+    model: "Model 3",
+    year: 2022,
+    plugType: PlugType.TESLA
+  },
+  paymentMethods: [
+    {
+      id: "pm1",
+      type: "card",
+      last4: "4242",
+      expiryDate: "06/26"
+    }
+  ],
+  favoriteStations: ["1", "3"]
+};
