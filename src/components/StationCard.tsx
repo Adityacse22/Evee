@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ interface StationCardProps {
   onBookClick: (station: Station) => void;
 }
 
-export function StationCard({ station, onBookClick }: StationCardProps) {
+export const StationCard = memo(({ station, onBookClick }: StationCardProps) => {
   const { 
     name, 
     address, 
@@ -142,4 +142,6 @@ export function StationCard({ station, onBookClick }: StationCardProps) {
       </CardFooter>
     </Card>
   );
-}
+});
+
+StationCard.displayName = "StationCard";
