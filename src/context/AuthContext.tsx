@@ -14,8 +14,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Initialize with mockUser for demo
-  const [user, setUser] = useState<User | null>(mockUser);
+  // Initialize with mockUser for demo - ensure it follows the User type definition
+  const [user, setUser] = useState<User | null>(mockUser as User);
   const isAuthenticated = !!user;
 
   // Mock login function
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log("Login attempt:", email, password);
     
     // Simulate successful login with mock user
-    setUser(mockUser);
+    setUser(mockUser as User);
   };
 
   // Mock logout function
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       name,
     };
     
-    setUser(newUser);
+    setUser(newUser as User);
   };
 
   return (
