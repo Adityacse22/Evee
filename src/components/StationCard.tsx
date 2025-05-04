@@ -1,5 +1,5 @@
 
-import { useState, memo } from "react";
+import { memo } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,46 +25,36 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
     amenities 
   } = station;
 
-  const [isEnergyBurst, setIsEnergyBurst] = useState(false);
-
   // Function to get appropriate color for availability
   const getAvailabilityColor = () => {
     const ratio = availability.available / availability.total;
-    if (ratio > 0.5) return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-    if (ratio > 0) return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-    return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+    if (ratio > 0.5) return "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-300";
+    if (ratio > 0) return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300";
+    return "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-300";
   };
   
   // Function to get chip color for charging speed
   const getChargingSpeedColor = (speed: ChargingSpeed) => {
     switch (speed) {
       case ChargingSpeed.LEVEL_1:
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+        return "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300";
       case ChargingSpeed.LEVEL_2:
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
+        return "bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-300";
       case ChargingSpeed.DC_FAST:
-        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300";
+        return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
     }
   };
 
-  const handleBookClick = () => {
-    setIsEnergyBurst(true);
-    setTimeout(() => {
-      setIsEnergyBurst(false);
-      onBookClick(station);
-    }, 600);
-  };
-
   return (
-    <Card className={`glass-card ${isEnergyBurst ? 'energy-burst' : ''}`}>
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-electric-400 to-blue-500 rounded-t-xl"></div>
+    <Card className="border border-slate-200 dark:border-slate-700 shadow-sm">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-t-xl"></div>
       
       <CardHeader>
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-xl bg-gradient-to-r from-electric-600 via-electric-500 to-blue-600 bg-clip-text text-transparent">
+            <CardTitle className="text-xl text-teal-600 dark:text-teal-400">
               {name}
             </CardTitle>
             <CardDescription className="mt-1 flex items-center">
@@ -73,7 +63,7 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
           </div>
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-1">
-              <span className="text-yellow-500">★</span>
+              <span className="text-amber-500">★</span>
               <span className="font-semibold">{rating}</span>
             </div>
           </div>
@@ -84,7 +74,7 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
         <div className="space-y-4">
           <div className="flex flex-wrap gap-2">
             {plugTypes.map((plugType) => (
-              <Badge key={plugType} variant="outline" className="flex items-center gap-1 transition-all duration-300 hover:scale-105">
+              <Badge key={plugType} variant="outline" className="flex items-center gap-1">
                 <Plug className="h-3 w-3" /> {plugType}
               </Badge>
             ))}
@@ -94,7 +84,7 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
             {chargingSpeed.map((speed) => (
               <Badge 
                 key={speed} 
-                className={`${getChargingSpeedColor(speed)} flex items-center gap-1 transition-all duration-300 hover:scale-105`}
+                className={`${getChargingSpeedColor(speed)} flex items-center gap-1`}
                 variant="secondary"
               >
                 <Zap className="h-3 w-3" /> {speed}
@@ -102,7 +92,7 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
             ))}
           </div>
           
-          <div className="flex justify-between items-center glass p-2 rounded-lg">
+          <div className="flex justify-between items-center p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
             <div>
               <p className="text-sm font-medium">Price</p>
               <p className="text-lg font-bold">${price}/{priceUnit}</p>
@@ -110,7 +100,7 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
             
             <div>
               <p className="text-sm font-medium">Availability</p>
-              <Badge className={`${getAvailabilityColor()} ${availability.available > 0 ? 'animate-pulse-slow' : ''}`}>
+              <Badge className={`${getAvailabilityColor()}`}>
                 {availability.available}/{availability.total} available
               </Badge>
             </div>
@@ -133,9 +123,9 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
       
       <CardFooter className="flex justify-end">
         <Button 
-          onClick={handleBookClick}
+          onClick={() => onBookClick(station)}
           disabled={availability.available === 0}
-          className={`gradient-button ${availability.available === 0 ? 'opacity-50' : ''}`}
+          className="bg-teal-600 hover:bg-teal-700 text-white transition-colors"
         >
           {availability.available > 0 ? "Book Now" : "Currently Full"}
         </Button>

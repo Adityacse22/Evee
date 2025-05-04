@@ -41,7 +41,7 @@ export const NetworkStatusRing = () => {
         <div className="progress-ring-container w-40 h-40 relative">
           <svg className="w-full h-full" viewBox="0 0 100 100">
             <circle 
-              className="text-gray-200 dark:text-gray-700" 
+              className="text-slate-200 dark:text-slate-700" 
               strokeWidth="5" 
               stroke="currentColor" 
               fill="transparent" 
@@ -50,7 +50,7 @@ export const NetworkStatusRing = () => {
               cy="50" 
             />
             <circle 
-              className="text-electric-500" 
+              className="text-teal-500" 
               strokeWidth="5" 
               strokeDasharray={251.2}
               strokeDashoffset={251.2 - (251.2 * chargeProgress) / 100}
@@ -63,21 +63,20 @@ export const NetworkStatusRing = () => {
             />
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#38bdf8" />
-                <stop offset="100%" stopColor="#818cf8" />
+                <stop offset="0%" stopColor="#14b8a6" />
+                <stop offset="100%" stopColor="#0891b2" />
               </linearGradient>
             </defs>
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-2xl font-bold text-electric-600 dark:text-electric-400">{chargeProgress}%</div>
+              <div className="text-2xl font-bold text-teal-600 dark:text-teal-400">{chargeProgress}%</div>
               <div className="text-xs text-muted-foreground">Network Load</div>
             </div>
           </div>
-          {/* Optimized orbital nodes with will-change for better GPU handling */}
-          <div className="orbital" style={{ animationDelay: '0s', willChange: 'transform' }}></div>
-          <div className="orbital" style={{ animationDelay: '2s', willChange: 'transform' }}></div>
-          <div className="orbital" style={{ animationDelay: '4s', willChange: 'transform' }}></div>
+          <div className="orbital" style={{ animationDelay: '0s', backgroundColor: '#14b8a6' }}></div>
+          <div className="orbital" style={{ animationDelay: '2s', backgroundColor: '#0891b2' }}></div>
+          <div className="orbital" style={{ animationDelay: '4s', backgroundColor: '#06b6d4' }}></div>
         </div>
       </div>
     </div>

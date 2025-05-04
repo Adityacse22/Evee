@@ -39,7 +39,7 @@ export const StationList = ({ stations, loading, error, onBookStation }: Station
       {loading ? (
         <div className="flex items-center justify-center h-40 glass-card">
           <div className="animate-pulse-slow">
-            <Zap className="h-10 w-10 text-electric-500" />
+            <Zap className="h-10 w-10 text-teal-500" />
             <p>Searching for stations...</p>
           </div>
         </div>
@@ -55,26 +55,7 @@ export const StationList = ({ stations, loading, error, onBookStation }: Station
         <>
           <div className="space-y-4">
             {paginatedStations.map(station => (
-              <div 
-                key={station.id}
-                className="tilt-card" 
-                style={{ transformStyle: 'preserve-3d' }}
-                onMouseMove={(e) => {
-                  const el = e.currentTarget;
-                  const rect = el.getBoundingClientRect();
-                  const x = e.clientX - rect.left; 
-                  const y = e.clientY - rect.top;
-                  const centerX = rect.width / 2;
-                  const centerY = rect.height / 2;
-                  const rotateX = (y - centerY) / 15;
-                  const rotateY = (centerX - x) / 15;
-                  
-                  el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
-                }}
-              >
+              <div key={station.id} className="transition-all duration-300 hover:shadow-md">
                 <StationCard 
                   station={station} 
                   onBookClick={onBookStation} 

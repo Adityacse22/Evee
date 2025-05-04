@@ -17,10 +17,10 @@ const SuperAdminPanel = lazy(() => import("./pages/SuperAdminPanel"));
 
 // Create loading fallback component
 const LoadingFallback = () => (
-  <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-50 via-white to-blue-50 dark:from-charcoal-950 dark:via-charcoal-900 dark:to-charcoal-950">
+  <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
     <div className="animate-pulse-slow flex flex-col items-center">
-      <Zap className="h-12 w-12 text-electric-500 mb-3" />
-      <div className="bg-gradient-to-r from-electric-400 via-electric-500 to-blue-600 bg-clip-text text-transparent text-lg font-medium">
+      <Zap className="h-12 w-12 text-teal-500 mb-3" />
+      <div className="bg-gradient-to-r from-teal-400 via-teal-500 to-cyan-600 bg-clip-text text-transparent text-lg font-medium">
         Loading EVEE...
       </div>
     </div>
