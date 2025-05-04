@@ -1,18 +1,38 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const NetworkStatusRing = () => {
   const [chargeProgress, setChargeProgress] = useState(45);
+  const requestRef = useRef<number>();
+  const previousTimeRef = useRef<number>();
   
-  // Simulated charge progress animation
+  // Use requestAnimationFrame for smoother animation
+  const animate = (time: number) => {
+    if (previousTimeRef.current !== undefined) {
+      const deltaTime = time - previousTimeRef.current;
+      
+      // Update progress every 100ms for better performance
+      if (deltaTime > 100) {
+        setChargeProgress(prevProgress => {
+          const newValue = prevProgress + 1;
+          return newValue > 100 ? 0 : newValue;
+        });
+        previousTimeRef.current = time;
+      }
+    } else {
+      previousTimeRef.current = time;
+    }
+    
+    requestRef.current = requestAnimationFrame(animate);
+  };
+  
   useEffect(() => {
-    const interval = setInterval(() => {
-      setChargeProgress(prev => {
-        const newValue = prev + 1;
-        return newValue > 100 ? 0 : newValue;
-      });
-    }, 300);
-    return () => clearInterval(interval);
+    requestRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -20,7 +40,15 @@ export const NetworkStatusRing = () => {
       <div className="flex justify-center items-center">
         <div className="progress-ring-container w-40 h-40 relative">
           <svg className="w-full h-full" viewBox="0 0 100 100">
-            <circle className="text-gray-200 dark:text-gray-700" strokeWidth="5" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
+            <circle 
+              className="text-gray-200 dark:text-gray-700" 
+              strokeWidth="5" 
+              stroke="currentColor" 
+              fill="transparent" 
+              r="40" 
+              cx="50" 
+              cy="50" 
+            />
             <circle 
               className="text-electric-500" 
               strokeWidth="5" 
@@ -42,14 +70,14 @@ export const NetworkStatusRing = () => {
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-2xl font-bold text-electric-600">{chargeProgress}%</div>
+              <div className="text-2xl font-bold text-electric-600 dark:text-electric-400">{chargeProgress}%</div>
               <div className="text-xs text-muted-foreground">Network Load</div>
             </div>
           </div>
-          {/* Orbital nodes representing nearby stations */}
-          <div className="orbital" style={{ animationDelay: '0s' }}></div>
-          <div className="orbital" style={{ animationDelay: '2s' }}></div>
-          <div className="orbital" style={{ animationDelay: '4s' }}></div>
+          {/* Optimized orbital nodes with will-change for better GPU handling */}
+          <div className="orbital" style={{ animationDelay: '0s', willChange: 'transform' }}></div>
+          <div className="orbital" style={{ animationDelay: '2s', willChange: 'transform' }}></div>
+          <div className="orbital" style={{ animationDelay: '4s', willChange: 'transform' }}></div>
         </div>
       </div>
     </div>

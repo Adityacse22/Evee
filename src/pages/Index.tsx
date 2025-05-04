@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useCallback, Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 import { UserProfile } from "@/components/UserProfile";
 import { BookingModal } from "@/components/BookingModal";
@@ -12,6 +12,17 @@ import { NetworkStatusRing } from "@/components/NetworkStatusRing";
 import { StationList } from "@/components/StationList";
 import { MapSection } from "@/components/MapSection";
 import { PageHeader } from "@/components/PageHeader";
+import { Zap } from "lucide-react";
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="h-[70vh] w-full flex items-center justify-center">
+    <div className="animate-pulse-slow flex flex-col items-center">
+      <Zap className="h-10 w-10 text-electric-500 mb-2" />
+      <p className="text-muted-foreground">Loading content...</p>
+    </div>
+  </div>
+);
 
 export default function Index() {
   const [showFilters, setShowFilters] = useState(false);
@@ -32,24 +43,25 @@ export default function Index() {
     stations, 
     loading, 
     error,
-    setFilter
+    setFilter,
+    refreshStations
   } = useStations({ initialFilter: filters, userLocation });
   
-  const handleStationSelect = (station: Station) => {
+  const handleStationSelect = useCallback((station: Station) => {
     setSelectedStation(station);
     setShowUserProfile(false); // Hide profile when selecting a station
-  };
+  }, []);
   
-  const handleBooking = (station: Station) => {
+  const handleBooking = useCallback((station: Station) => {
     setSelectedStation(station);
     setBookingModalOpen(true);
-  };
+  }, []);
   
   // Update filters in the hook when local state changes
-  const handleFilterChange = (newFilters: Filter) => {
+  const handleFilterChange = useCallback((newFilters: Filter) => {
     setFilters(newFilters);
     setFilter(newFilters);
-  };
+  }, [setFilter]);
 
   return (
     <ThemeProvider>
@@ -70,34 +82,36 @@ export default function Index() {
               setShowUserProfile={setShowUserProfile}
             />
 
-            <NetworkStatusRing />
-            
-            {/* Filters Section */}
-            {showFilters && (
-              <FilterSection filters={filters} setFilters={handleFilterChange} />
-            )}
-            
-            {showUserProfile ? (
-              <div className="animate-fade-in">
-                <UserProfile showBookings={true} />
-              </div>
-            ) : (
-              <div className="grid lg:grid-cols-3 gap-6">
-                <MapSection 
-                  stations={stations}
-                  userLocation={userLocation}
-                  selectedStation={selectedStation}
-                  onStationSelect={handleStationSelect}
-                />
-                
-                <StationList 
-                  stations={stations}
-                  loading={loading}
-                  error={error}
-                  onBookStation={handleBooking}
-                />
-              </div>
-            )}
+            <Suspense fallback={<LoadingFallback />}>
+              <NetworkStatusRing />
+              
+              {/* Filters Section */}
+              {showFilters && (
+                <FilterSection filters={filters} setFilters={handleFilterChange} />
+              )}
+              
+              {showUserProfile ? (
+                <div className="animate-fade-in">
+                  <UserProfile showBookings={true} />
+                </div>
+              ) : (
+                <div className="grid lg:grid-cols-3 gap-6">
+                  <MapSection 
+                    stations={stations}
+                    userLocation={userLocation}
+                    selectedStation={selectedStation}
+                    onStationSelect={handleStationSelect}
+                  />
+                  
+                  <StationList 
+                    stations={stations}
+                    loading={loading}
+                    error={error}
+                    onBookStation={handleBooking}
+                  />
+                </div>
+              )}
+            </Suspense>
             
             {/* Gradient wave footer */}
             <div className="h-16 relative mt-8">

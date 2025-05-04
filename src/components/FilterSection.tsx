@@ -11,39 +11,37 @@ interface FilterSectionProps {
 
 export const FilterSection = ({ filters, setFilters }: FilterSectionProps) => {
   const toggleFilter = (filterName: string, value: any) => {
-    setFilters((prev: Filter) => {
-      const newFilters = { ...prev };
+    const newFilters = { ...filters };
+    
+    if (filterName === 'plugTypes') {
+      const plugTypes = [...(filters.plugTypes || [])];
+      const index = plugTypes.indexOf(value);
       
-      if (filterName === 'plugTypes') {
-        const plugTypes = [...(prev.plugTypes || [])];
-        const index = plugTypes.indexOf(value);
-        
-        if (index >= 0) {
-          plugTypes.splice(index, 1);
-        } else {
-          plugTypes.push(value);
-        }
-        
-        newFilters.plugTypes = plugTypes;
-      } 
-      else if (filterName === 'chargingSpeed') {
-        const speeds = [...(prev.chargingSpeed || [])];
-        const index = speeds.indexOf(value);
-        
-        if (index >= 0) {
-          speeds.splice(index, 1);
-        } else {
-          speeds.push(value);
-        }
-        
-        newFilters.chargingSpeed = speeds;
-      } 
-      else if (filterName === 'availability') {
-        newFilters.availability = !prev.availability;
+      if (index >= 0) {
+        plugTypes.splice(index, 1);
+      } else {
+        plugTypes.push(value);
       }
       
-      return newFilters;
-    });
+      newFilters.plugTypes = plugTypes;
+    } 
+    else if (filterName === 'chargingSpeed') {
+      const speeds = [...(filters.chargingSpeed || [])];
+      const index = speeds.indexOf(value);
+      
+      if (index >= 0) {
+        speeds.splice(index, 1);
+      } else {
+        speeds.push(value);
+      }
+      
+      newFilters.chargingSpeed = speeds;
+    } 
+    else if (filterName === 'availability') {
+      newFilters.availability = !filters.availability;
+    }
+    
+    setFilters(newFilters);
   };
 
   return (

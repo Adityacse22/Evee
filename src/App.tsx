@@ -17,10 +17,12 @@ const SuperAdminPanel = lazy(() => import("./pages/SuperAdminPanel"));
 
 // Create loading fallback component
 const LoadingFallback = () => (
-  <div className="h-screen w-screen flex items-center justify-center">
+  <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-50 via-white to-blue-50 dark:from-charcoal-950 dark:via-charcoal-900 dark:to-charcoal-950">
     <div className="animate-pulse-slow flex flex-col items-center">
-      <Zap className="h-10 w-10 text-electric-500 mb-2" />
-      <p className="text-muted-foreground">Loading...</p>
+      <Zap className="h-12 w-12 text-electric-500 mb-3" />
+      <div className="bg-gradient-to-r from-electric-400 via-electric-500 to-blue-600 bg-clip-text text-transparent text-lg font-medium">
+        Loading EVEE...
+      </div>
     </div>
   </div>
 );
@@ -32,6 +34,7 @@ const queryClient = new QueryClient({
       staleTime: 60 * 1000, // 1 minute
       refetchOnWindowFocus: false,
       retry: 1,
+      refetchOnMount: false,
     },
   },
 });
@@ -42,7 +45,7 @@ const App = () => (
       <AuthProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
+          <Sonner closeButton position="bottom-right" />
           <BrowserRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>

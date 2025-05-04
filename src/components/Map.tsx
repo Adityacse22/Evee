@@ -1,6 +1,6 @@
 
-import { useEffect, useState, useRef } from "react";
-import { Station, Location, MapMarker } from "../types";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { Station, Location } from "../types";
 
 interface MapProps {
   stations: Station[];
@@ -13,8 +13,18 @@ export function Map({ stations, userLocation, onStationSelect, selectedStation }
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapInitialized, setMapInitialized] = useState(false);
   
-  // This would be replaced with actual Google Maps integration in a real app
-  // For demo, we'll create a simplified map visualization
+  // Memoize station positions for better performance
+  const stationPositions = useMemo(() => {
+    return stations.map(station => ({
+      id: station.id,
+      station,
+      // Generate fixed positions to avoid re-renders moving stations around
+      position: {
+        x: hashStringToNumber(station.id, 10, 90),
+        y: hashStringToNumber(station.name, 10, 90)
+      }
+    }));
+  }, [stations]);
   
   useEffect(() => {
     // In a real app, this would initialize Google Maps API
@@ -38,18 +48,20 @@ export function Map({ stations, userLocation, onStationSelect, selectedStation }
           </div>
           
           <div className="flex-1 relative">
-            {/* Map Markers for Stations */}
-            {stations.map((station) => (
+            {/* Map Markers for Stations - using memoized positions */}
+            {stationPositions.map(({ id, station, position }) => (
               <div 
-                key={station.id}
+                key={id}
                 className={`absolute cursor-pointer transition-all duration-300 ${
-                  selectedStation?.id === station.id 
+                  selectedStation?.id === id 
                     ? "z-10 scale-125" 
                     : "z-0 hover:scale-110"
                 }`}
                 style={{ 
-                  left: `${Math.random() * 80 + 10}%`, 
-                  top: `${Math.random() * 80 + 10}%`
+                  left: `${position.x}%`, 
+                  top: `${position.y}%`,
+                  transform: selectedStation?.id === id ? 'scale(1.25)' : 'scale(1)',
+                  willChange: 'transform'
                 }}
                 onClick={() => handleMarkerClick(station)}
               >
@@ -62,7 +74,7 @@ export function Map({ stations, userLocation, onStationSelect, selectedStation }
                 >
                   {station.availability.available}
                 </div>
-                {selectedStation?.id === station.id && (
+                {selectedStation?.id === id && (
                   <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-primary rotate-45" />
                 )}
               </div>
@@ -101,4 +113,15 @@ export function Map({ stations, userLocation, onStationSelect, selectedStation }
       </div>
     </div>
   );
+}
+
+// Helper function to generate consistent positions from strings
+function hashStringToNumber(str: string, min: number, max: number): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+  // Normalize between min and max
+  return min + Math.abs(hash) % (max - min);
 }
