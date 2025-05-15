@@ -1,7 +1,8 @@
 
-import { useState } from "react";
-import { Filter as FilterIcon, Plug, Zap } from "lucide-react";
 import { PlugType, ChargingSpeed, Filter } from "@/types";
+import { Filter as FilterIcon, Plug, Zap } from "lucide-react";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 interface FilterSectionProps {
   filters: Filter;
@@ -44,69 +45,64 @@ export const FilterSection = ({ filters, setFilters }: FilterSectionProps) => {
   };
 
   return (
-    <div className="mb-6 p-4 glass border border-neon-blue/30 animate-fade-in">
-      <h2 className="font-mono text-neon-blue mb-4 flex items-center">
-        <FilterIcon className="h-4 w-4 mr-2 text-neon-purple" />
-        FILTER_PARAMETERS
-      </h2>
-      
-      <div className="space-y-6">
+    <Card className="mb-6 animate-fade-in">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg flex items-center">
+          <FilterIcon className="h-4 w-4 mr-2" />
+          Filter Parameters
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
         <div>
-          <h3 className="text-sm font-mono text-white/70 mb-3">CONNECTOR_TYPES</h3>
+          <h3 className="text-sm text-muted-foreground mb-3">Connector Types</h3>
           <div className="flex flex-wrap gap-2">
             {Object.values(PlugType).map(type => (
-              <button 
+              <Button 
                 key={type}
-                className={`transition-all duration-300 px-3 py-1.5 rounded font-mono text-xs flex items-center gap-1.5 ${
-                  filters.plugTypes?.includes(type)
-                    ? 'bg-cyber-accent border border-neon-blue text-neon-blue shadow-neon-blue'
-                    : 'bg-cyber-dark/60 border border-white/20 text-white/60 hover:border-neon-blue/50 hover:text-neon-blue/50'
-                }`}
+                variant={filters.plugTypes?.includes(type) ? "default" : "outline"}
+                size="sm"
                 onClick={() => toggleFilter('plugTypes', type)}
+                className="text-xs flex items-center gap-1.5 h-8"
               >
                 <Plug className="w-3.5 h-3.5" />
                 {type}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
         
         <div>
-          <h3 className="text-sm font-mono text-white/70 mb-3">CHARGING_SPEED</h3>
+          <h3 className="text-sm text-muted-foreground mb-3">Charging Speed</h3>
           <div className="flex flex-wrap gap-2">
             {Object.values(ChargingSpeed).map(speed => (
-              <button 
+              <Button 
                 key={speed}
-                className={`transition-all duration-300 px-3 py-1.5 rounded font-mono text-xs flex items-center gap-1.5 ${
-                  filters.chargingSpeed?.includes(speed)
-                    ? 'bg-cyber-accent border border-neon-purple text-neon-purple shadow-neon-purple'
-                    : 'bg-cyber-dark/60 border border-white/20 text-white/60 hover:border-neon-purple/50 hover:text-neon-purple/50'
-                }`}
+                variant={filters.chargingSpeed?.includes(speed) ? "default" : "outline"}
+                size="sm"
                 onClick={() => toggleFilter('chargingSpeed', speed)}
+                className="text-xs flex items-center gap-1.5 h-8"
               >
                 <Zap className="w-3.5 h-3.5" />
                 {speed}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
         
         <div>
-          <h3 className="text-sm font-mono text-white/70 mb-3">STATUS_FILTERS</h3>
+          <h3 className="text-sm text-muted-foreground mb-3">Status Filters</h3>
           <div className="flex flex-wrap gap-2">
-            <button 
-              className={`transition-all duration-300 px-3 py-1.5 rounded font-mono text-xs ${
-                filters.availability
-                  ? 'bg-cyber-accent border border-neon-green text-neon-green shadow-neon-green'
-                  : 'bg-cyber-dark/60 border border-white/20 text-white/60 hover:border-neon-green/50 hover:text-neon-green/50'
-              }`}
+            <Button 
+              variant={filters.availability ? "default" : "outline"}
+              size="sm"
               onClick={() => toggleFilter('availability', null)}
+              className="text-xs h-8"
             >
-              AVAILABLE_NOW
-            </button>
+              Available Now
+            </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };

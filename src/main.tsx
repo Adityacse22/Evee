@@ -15,7 +15,7 @@ document.getElementsByTagName('head')[0].appendChild(meta);
 // Add theme color meta for browser UI color on mobile
 const themeColorMeta = document.createElement('meta');
 themeColorMeta.name = 'theme-color';
-themeColorMeta.content = '#0F0F19'; // cyber-dark color
+themeColorMeta.content = '#ffffff';
 document.getElementsByTagName('head')[0].appendChild(themeColorMeta);
 
 // Initialize haptic feedback for supported devices

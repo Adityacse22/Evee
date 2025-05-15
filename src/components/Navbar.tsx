@@ -23,27 +23,27 @@ export function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neon-blue/30 bg-cyber-dark/80 backdrop-blur-md supports-[backdrop-filter]:bg-cyber-dark/50">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="flex items-center">
-            <Zap className="h-6 w-6 text-neon-blue mr-2" />
-            <div className="text-2xl font-bold font-cyberpunk text-white">
-              <span className="text-neon-blue neon-text-blue">SPARK</span>
-              <span className="text-neon-purple neon-text-purple">SLOT</span>
+            <Zap className="h-6 w-6 text-primary mr-2" />
+            <div className="text-2xl font-bold">
+              <span className="text-primary">Spark</span>
+              <span className="text-primary/70">Slot</span>
             </div>
           </div>
         </div>
         
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-sm font-mono text-white/70 hover:text-neon-blue hover:drop-shadow-neon-text-blue transition-all">
-            FIND_STATIONS
+          <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            Find Stations
           </a>
-          <a href="#" className="text-sm font-mono text-white/70 hover:text-neon-blue hover:drop-shadow-neon-text-blue transition-all">
-            MY_BOOKINGS
+          <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            My Bookings
           </a>
-          <a href="#" className="text-sm font-mono text-white/70 hover:text-neon-blue hover:drop-shadow-neon-text-blue transition-all">
-            HELP.SYS
+          <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            Help
           </a>
         </nav>
         
@@ -53,42 +53,37 @@ export function Navbar() {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="rounded-full relative h-10 w-10 p-0 border border-neon-purple/50 bg-cyber-light/20 hover:bg-cyber-light/40">
+                <Button variant="ghost" className="rounded-full relative h-10 w-10 p-0">
                   <Avatar className="h-9 w-9">
-                    <AvatarImage src={user?.profileImage} alt={user?.name} className="border-2 border-neon-purple" />
-                    <AvatarFallback className="bg-cyber-dark text-neon-purple border border-neon-purple">{user?.name?.[0]}</AvatarFallback>
+                    <AvatarImage src={user?.profileImage} alt={user?.name} />
+                    <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-cyber-dark border border-neon-blue/50 backdrop-blur-md">
-                <DropdownMenuLabel className="font-mono text-neon-blue">USER_PROFILE</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-neon-blue/30" />
-                <DropdownMenuItem className="font-mono text-white/70 hover:bg-cyber-light hover:text-neon-blue cursor-pointer">PROFILE</DropdownMenuItem>
-                <DropdownMenuItem className="font-mono text-white/70 hover:bg-cyber-light hover:text-neon-blue cursor-pointer">BOOKINGS</DropdownMenuItem>
-                <DropdownMenuItem className="font-mono text-white/70 hover:bg-cyber-light hover:text-neon-blue cursor-pointer">SETTINGS</DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-neon-blue/30" />
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>User Profile</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">Bookings</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   onClick={logout}
-                  className="font-mono text-red-400 hover:bg-cyber-light hover:text-red-500 cursor-pointer"
+                  className="text-red-500 cursor-pointer"
                 >
-                  LOGOUT
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <button 
+            <Button 
               onClick={() => setShowLoginModal(true)}
-              className="cyber-button border-neon-green text-neon-green hover:shadow-neon-green"
+              variant="default"
             >
-              LOGIN
-            </button>
+              Login
+            </Button>
           )}
         </div>
-      </div>
-      
-      {/* Data stream effect under the navbar */}
-      <div className="h-1">
-        <div className="data-stream"></div>
       </div>
     </header>
   );

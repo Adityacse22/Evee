@@ -31,46 +31,28 @@ export const MapSection = ({
 
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.95, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
         type: "spring",
         stiffness: 260,
         damping: 20
       }}
-      className="lg:col-span-2 h-[70vh] relative rounded-3xl overflow-hidden"
+      className="lg:col-span-2 h-[70vh] relative rounded-lg overflow-hidden shadow-lg"
     >
-      {/* Decorative 3D frame elements */}
-      <div className="absolute inset-0 border-2 border-neon-blue/30 rounded-3xl pointer-events-none z-10 overflow-hidden">
-        <div className="absolute -top-1 -left-1 w-16 h-16 border-t-2 border-l-2 border-neon-blue rounded-tl-3xl"></div>
-        <div className="absolute -top-1 -right-1 w-16 h-16 border-t-2 border-r-2 border-neon-blue rounded-tr-3xl"></div>
-        <div className="absolute -bottom-1 -left-1 w-16 h-16 border-b-2 border-l-2 border-neon-blue rounded-bl-3xl"></div>
-        <div className="absolute -bottom-1 -right-1 w-16 h-16 border-b-2 border-r-2 border-neon-blue rounded-br-3xl"></div>
-        
-        {/* Animated scan lines */}
-        <div className="scanline animate-scanline"></div>
-        <div className="scanline animate-scanline animation-delay-700"></div>
-        
-        {/* 3D depth effect layers */}
-        <div className="absolute inset-0 bg-gradient-to-b from-neon-blue/5 to-transparent pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-neon-purple/10 to-transparent pointer-events-none"></div>
+      {/* Map status indicator */}
+      <div className="absolute top-4 left-4 z-20 bg-white/80 dark:bg-gray-800/80 px-3 py-1 rounded-full text-xs flex items-center gap-1 shadow-sm backdrop-blur-sm">
+        <span className="inline-block h-2 w-2 bg-green-500 rounded-full animate-pulse"></span> 
+        <span className="text-gray-700 dark:text-gray-200">Live View</span>
       </div>
       
-      {/* Floating UI elements */}
-      <div className="absolute top-4 left-4 z-20 glass-morphism px-3 py-1 rounded-full text-xs font-mono text-neon-green flex items-center gap-1">
-        <span className="inline-block h-2 w-2 bg-neon-green rounded-full animate-pulse"></span> 
-        LIVE VIEW
+      <div className="absolute top-4 right-4 z-20 bg-white/80 dark:bg-gray-800/80 px-3 py-1 rounded-full text-xs flex items-center shadow-sm backdrop-blur-sm">
+        <span className="text-gray-700 dark:text-gray-200 mr-1">{stations.length}</span> 
+        <span className="text-gray-700 dark:text-gray-200">Stations</span>
       </div>
-      
-      <div className="absolute top-4 right-4 z-20 glass-morphism px-3 py-1 rounded-full text-xs font-mono text-neon-blue flex items-center">
-        <span>{stations.length}</span> <span className="ml-1">STATIONS</span>
-      </div>
-      
-      {/* Rotating cubic frame (decorative) */}
-      <div className="absolute -bottom-40 -right-40 w-80 h-80 border border-neon-purple/20 rounded-lg transform rotate-45 animate-slow-rotate opacity-30 pointer-events-none"></div>
 
       {/* Main map component */}
-      <div className="absolute inset-0 glass-morphism">
+      <div className="absolute inset-0">
         <Map 
           stations={stations}
           userLocation={userLocation}

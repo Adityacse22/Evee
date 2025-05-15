@@ -18,51 +18,46 @@ export function PageHeader({
   return (
     <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center">
       <div className="mb-4 sm:mb-0">
-        <h1 className="text-3xl font-bold font-cyberpunk text-neon-blue neon-text-blue">
-          EV_CHARGING<span className="text-neon-green neon-text-green">NETWORK</span>
+        <h1 className="text-3xl font-bold text-primary">
+          EV Charging Network
         </h1>
-        <p className="text-white/70 font-mono mt-1">
-          DISCOVER AND RESERVE CHARGING STATIONS IN REAL-TIME
+        <p className="text-muted-foreground mt-1">
+          Discover and reserve charging stations in real-time
         </p>
       </div>
       
-      <div className="flex gap-3">
-        <button
+      <div className="flex gap-2">
+        <Button
+          variant={showFilters ? "default" : "outline"}
           onClick={() => {
             setShowFilters(!showFilters);
             if (showUserProfile) setShowUserProfile(false);
           }}
-          className={`cyber-button ${
-            showFilters 
-              ? 'bg-cyber-accent border-neon-blue text-white' 
-              : 'border-neon-blue text-neon-blue'
-          }`}
+          size="sm"
         >
           <Filter className="h-4 w-4 mr-2" />
-          FILTER
-        </button>
+          Filters
+        </Button>
         
-        <button
+        <Button
+          variant={showUserProfile ? "default" : "outline"}
           onClick={() => {
             setShowUserProfile(!showUserProfile);
             if (showFilters) setShowFilters(false);
           }}
-          className={`cyber-button ${
-            showUserProfile 
-              ? 'bg-cyber-accent border-neon-purple text-white' 
-              : 'border-neon-purple text-neon-purple'
-          }`}
+          size="sm"
         >
           <User className="h-4 w-4 mr-2" />
-          PROFILE
-        </button>
+          Profile
+        </Button>
         
-        <button
-          className={`cyber-button border-neon-green text-neon-green`}
+        <Button
+          variant="outline"
+          size="sm"
         >
           <MapPin className="h-4 w-4 mr-2" />
-          LOCATE
-        </button>
+          Locate
+        </Button>
       </div>
     </div>
   );
