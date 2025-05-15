@@ -28,7 +28,7 @@ if ('vibrate' in navigator) {
 window.addEventListener('click', () => {
   if (!window.audioContext) {
     try {
-      window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      window.audioContext = new AudioContext();
       console.log('Audio context initialized');
     } catch (e) {
       console.log('Web Audio API not supported');
