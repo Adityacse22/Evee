@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,13 +62,15 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-                // Cyberpunk theme colors
+                // Extended cyberpunk theme colors
                 neon: {
                     blue: '#00FFFF',
                     green: '#39FF14',
                     purple: '#9D00FF',
                     pink: '#FF00F5',
                     yellow: '#FFFF00',
+                    orange: '#FF9933',
+                    red: '#FF0033',
                 },
                 cyber: {
                     dark: '#0F0F19',
@@ -78,37 +79,19 @@ export default {
                     accent: '#392F5A',
                     highlight: '#31274A',
                 },
-                electric: {
-                    50: '#f0faff',
-                    100: '#e0f5fe',
-                    200: '#bae8fd',
-                    300: '#7dd5fc',
-                    400: '#38bdf8',
-                    500: '#0ea5e9',
-                    600: '#0284c7',
-                    700: '#0369a1',
-                    800: '#075985',
-                    900: '#0c4a6e',
-                    950: '#082f49',
-                },
-                charcoal: {
-                    50: '#f6f7f9',
-                    100: '#eceef2',
-                    200: '#d5dae2',
-                    300: '#b0bac8',
-                    400: '#8595aa',
-                    500: '#64788f',
-                    600: '#4f6075',
-                    700: '#404d60',
-                    800: '#36414f',
-                    900: '#1A1F2C',
-                    950: '#171c27',
+                // Ultra-modern gradient palette
+                gradient: {
+                    blue: 'linear-gradient(225deg, #00FFFF 0%, #0099FF 100%)',
+                    green: 'linear-gradient(225deg, #39FF14 0%, #00CC33 100%)',
+                    purple: 'linear-gradient(225deg, #9D00FF 0%, #6600CC 100%)',
                 },
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+                '3xl': '1.5rem',
+                '4xl': '2rem',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -139,9 +122,25 @@ export default {
                     '0%': { transform: 'translateY(10px)', opacity: '0' },
                     '100%': { transform: 'translateY(0)', opacity: '1' },
                 },
+                'slide-in-right': {
+                    '0%': { transform: 'translateX(100%)', opacity: '0' },
+                    '100%': { transform: 'translateX(0)', opacity: '1' },
+                },
+                'slide-in-left': {
+                    '0%': { transform: 'translateX(-100%)', opacity: '0' },
+                    '100%': { transform: 'translateX(0)', opacity: '1' },
+                },
+                'slide-in-bottom': {
+                    '0%': { transform: 'translateY(100%)', opacity: '0' },
+                    '100%': { transform: 'translateY(0)', opacity: '1' },
+                },
                 'glow-pulse': {
                     '0%, 100%': { boxShadow: '0 0 5px 2px var(--glow-color, rgba(0, 255, 255, 0.7))' },
                     '50%': { boxShadow: '0 0 15px 5px var(--glow-color, rgba(0, 255, 255, 0.9))' },
+                },
+                'glow-pulse-strong': {
+                    '0%, 100%': { boxShadow: '0 0 10px 2px var(--glow-color, rgba(0, 255, 255, 0.7)), 0 0 20px 5px var(--glow-color, rgba(0, 255, 255, 0.5))' },
+                    '50%': { boxShadow: '0 0 20px 5px var(--glow-color, rgba(0, 255, 255, 0.9)), 0 0 30px 10px var(--glow-color, rgba(0, 255, 255, 0.7))' },
                 },
                 'float': {
                     '0%, 100%': { transform: 'translateY(0)' },
@@ -172,10 +171,30 @@ export default {
                     '0%': { transform: 'rotate(0deg)' },
                     '100%': { transform: 'rotate(360deg)' },
                 },
+                'rotate-3d-slow': {
+                    '0%': { transform: 'rotate3d(1, 1, 1, 0deg)' },
+                    '100%': { transform: 'rotate3d(1, 1, 1, 360deg)' },
+                },
                 'grid-flow': {
                     '0%': { backgroundPosition: '0px 0px' },
                     '100%': { backgroundPosition: '40px 40px' },
-                }
+                },
+                'border-glow': {
+                    '0%, 100%': { borderColor: 'rgba(0, 255, 255, 0.7)' },
+                    '50%': { borderColor: 'rgba(0, 255, 255, 0.3)' },
+                },
+                'scale-pulse': {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(1.05)' },
+                },
+                'hover-rise': {
+                    '0%': { transform: 'translateY(0) scale(1)' },
+                    '100%': { transform: 'translateY(-10px) scale(1.02)' }
+                },
+                'card-flip': {
+                    '0%': { transform: 'rotateY(0deg)' },
+                    '100%': { transform: 'rotateY(180deg)' }
+                },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -183,7 +202,11 @@ export default {
                 'fade-in': 'fade-in 0.3s ease-out',
                 'fade-out': 'fade-out 0.3s ease-out',
                 'slide-in': 'slide-in 0.4s ease-out',
+                'slide-in-right': 'slide-in-right 0.3s ease-out',
+                'slide-in-left': 'slide-in-left 0.3s ease-out',
+                'slide-in-bottom': 'slide-in-bottom 0.3s ease-out',
                 'glow-pulse': 'glow-pulse 2s infinite ease-in-out',
+                'glow-pulse-strong': 'glow-pulse-strong 2s infinite ease-in-out',
                 'pulse-slow': 'pulse 3s ease-in-out infinite',
                 'float': 'float 6s ease-in-out infinite',
                 'neon-flicker': 'neon-text-flicker 1.5s infinite alternate',
@@ -193,6 +216,11 @@ export default {
                 'pulse-opacity': 'pulse-opacity 2s ease-in-out infinite',
                 'slow-rotate': 'rotate-slow 30s linear infinite',
                 'grid-flow': 'grid-flow 1s linear infinite',
+                'border-glow': 'border-glow 2s ease-in-out infinite',
+                'scale-pulse': 'scale-pulse 3s ease-in-out infinite',
+                'hover-rise': 'hover-rise 0.5s ease-out forwards',
+                'card-flip': 'card-flip 0.8s ease-out forwards',
+                'rotate-3d': 'rotate-3d-slow 20s linear infinite',
 			},
             fontFamily: {
                 sans: ['Orbitron', 'sans-serif'],
@@ -204,6 +232,9 @@ export default {
                 'cyber-grid': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a1a2e' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
                 'cyber-radial': 'radial-gradient(circle, rgba(15, 15, 25, 0.8) 0%, rgba(15, 15, 25, 1) 100%)',
                 'neon-grid': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300FFFF' stroke-width='0.5' stroke-opacity='0.2'%3E%3Cpath d='M0 20h40M20 0v40'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                'ultra-grid': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300FFFF' stroke-opacity='0.15' stroke-width='0.5'%3E%3Cpath d='M0 0 L60 0 L60 60 L0 60 L0 0 Z M20 0 L20 60 M40 0 L40 60 M0 20 L60 20 M0 40 L60 40'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                'circuit-lines': "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%2300FFFF' stroke-opacity='0.1' stroke-width='0.5' fill='none'%3E%3Cpath d='M0 50 Q25 25, 50 50 T100 50 M25 0 V100 M75 0 V100'/%3E%3C/g%3E%3C/svg%3E\")",
+                'radial-glow': 'radial-gradient(circle at center, rgba(0, 255, 255, 0.2) 0%, rgba(157, 0, 255, 0.1) 40%, rgba(15, 15, 25, 0) 70%)',
             },
             boxShadow: {
                 'neon-blue': '0 0 5px theme(colors.neon.blue), 0 0 10px theme(colors.neon.blue)',
@@ -212,6 +243,13 @@ export default {
                 'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
                 'neo': '5px 5px 10px #0c0c14, -5px -5px 10px #12121e',
                 'neo-inset': 'inset 5px 5px 10px #0c0c14, inset -5px -5px 10px #12121e',
+                'neon-blue-lg': '0 0 10px theme(colors.neon.blue), 0 0 20px theme(colors.neon.blue)',
+                'neon-green-lg': '0 0 10px theme(colors.neon.green), 0 0 20px theme(colors.neon.green)',
+                'neon-purple-lg': '0 0 10px theme(colors.neon.purple), 0 0 20px theme(colors.neon.purple)',
+                'glassy': '0 10px 30px rgba(0, 0, 0, 0.2)',
+                '3d-top': '0 -5px 15px rgba(0, 0, 0, 0.3)',
+                '3d-card': '0 10px 30px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.5)',
+                'inner-glow': 'inset 0 0 10px rgba(0, 255, 255, 0.5)',
             },
             dropShadow: {
                 'neon-text-blue': [
@@ -229,9 +267,29 @@ export default {
                     '0 0 10px rgba(157, 0, 255, 0.5)',
                     '0 0 21px rgba(157, 0, 255, 0.5)',
                 ],
+                'glow-lg': '0 0 15px rgba(0, 255, 255, 0.7)',
+                'text-glow': '0 0 10px rgba(255, 255, 255, 0.5)',
+                'neon-3d': [
+                    '0 0 5px rgba(0, 255, 255, 0.7)',
+                    '0 0 10px rgba(0, 255, 255, 0.5)',
+                    '0 0 15px rgba(0, 255, 255, 0.3)',
+                ],
             },
             backdropBlur: {
                 xs: '2px',
+            },
+            transformStyle: {
+                '3d': 'preserve-3d',
+            },
+            perspective: {
+                '1000': '1000px',
+                '2000': '2000px',
+            },
+            translate: {
+                'z-10': '10px',
+                'z-20': '20px',
+                'z-neg-10': '-10px',
+                'z-neg-20': '-20px',
             },
 		}
 	},
