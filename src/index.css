@@ -101,14 +101,25 @@
 
 @layer components {
   /* Glass morphism effects */
-  .glass {
-    @apply bg-cyber-light/10 backdrop-blur-xl border border-white/10 shadow-glass;
+  .glass-morphism {
+    @apply bg-cyber-light/10 backdrop-blur-xl border border-white/10 shadow-glass relative overflow-hidden;
+  }
+  
+  .glass-morphism::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-30 pointer-events-none;
   }
   
   /* Cyberpunk card */
   .cyber-card {
     @apply relative overflow-hidden bg-cyber-light border border-neon-blue/30 shadow-neon-blue;
     box-shadow: 0 0 10px theme('colors.neon.blue'), inset 0 0 5px theme('colors.neon.blue');
+  }
+
+  .glass-card {
+    @apply relative overflow-hidden rounded-lg backdrop-blur-xl border border-white/10;
+    background: linear-gradient(135deg, rgba(57, 47, 90, 0.1) 0%, rgba(25, 25, 35, 0.5) 100%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   }
 
   /* Neuromorphic elements */
@@ -118,6 +129,31 @@
 
   .neo-inset {
     @apply shadow-neo-inset bg-cyber-light;
+  }
+  
+  .neo-button {
+    @apply px-6 py-2.5 relative overflow-hidden font-mono text-base
+           bg-cyber-dark/80 backdrop-blur-sm border-2 shadow-lg
+           transition-all duration-300 hover:shadow-lg hover:bg-cyber-accent
+           hover:scale-105 active:scale-95 rounded-md;
+  }
+  
+  .neo-control {
+    @apply bg-cyber-dark/80 backdrop-blur-sm shadow-lg
+           transition-all duration-300 hover:shadow-lg;
+  }
+  
+  /* Advanced 3D elements */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
   }
   
   /* Neon text effects */
@@ -180,10 +216,22 @@
   .neon-grid-bg {
     @apply bg-cyber-dark bg-neon-grid;
   }
-
-  /* Map container */
+  
+  /* Animated data chip */
+  .data-chip {
+    @apply px-3 py-1 rounded-full bg-cyber-accent/30 backdrop-blur-sm
+           border border-neon-green/30 text-neon-green font-mono text-sm
+           shadow-neon-green;
+  }
+  
+  /* Advanced map elements */
   .map-container {
-    @apply h-[calc(100vh-5rem)] w-full relative border border-neon-blue/30;
+    @apply w-full h-full relative border border-neon-blue/30;
+  }
+  
+  .map-initialized {
+    @apply scale-100 opacity-100;
+    transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
   }
   
   /* Cyber buttons */
@@ -286,6 +334,51 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(50%); }
   }
+
+  /* Advanced scanline effect */
+  .scanline {
+    @apply absolute h-px w-full bg-neon-blue/20;
+    animation: scanline 3s linear infinite;
+  }
+  
+  /* 3D Floating elements */
+  .float-3d {
+    @apply transition-transform duration-700;
+    transform: translateZ(20px);
+  }
+  
+  /* Scrollbar styling */
+  .scrollbar-cyberpunk {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.neon.blue') theme('colors.cyber.dark');
+  }
+  
+  .scrollbar-cyberpunk::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-cyberpunk::-webkit-scrollbar-track {
+    background: theme('colors.cyber.dark');
+  }
+  
+  .scrollbar-cyberpunk::-webkit-scrollbar-thumb {
+    background-color: theme('colors.neon.blue');
+    border-radius: 20px;
+    border: 2px solid theme('colors.cyber.dark');
+  }
+
+  /* Animation delays */
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .animation-delay-700 {
+    animation-delay: 700ms;
+  }
 }
 
 /* Utility classes for animations */
@@ -297,23 +390,27 @@
   animation: pulse 3s ease-in-out infinite;
 }
 
-/* 3D transform utilities */
-.perspective-1000 {
-  perspective: 1000px;
+/* Animated scan line */
+@keyframes scanline {
+  0% {
+    transform: translateY(0vh);
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0.1;
+  }
 }
 
-.transform-style-3d {
-  transform-style: preserve-3d;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-.transform-gpu {
-  transform: translateZ(0);
-}
-
-.rotateY-180 {
-  transform: rotateY(180deg);
+/* Animation for rotating the map */
+@keyframes rotate-map {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }

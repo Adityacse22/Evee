@@ -1,6 +1,7 @@
 
 import { Map } from "@/components/Map";
 import { Station, Location } from "@/types";
+import { motion } from "framer-motion";
 
 interface MapSectionProps {
   stations: Station[];
@@ -16,13 +17,22 @@ export const MapSection = ({
   onStationSelect
 }: MapSectionProps) => {
   return (
-    <div className="lg:col-span-2 h-[70vh] glass border border-neon-blue/30">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }}
+      className="lg:col-span-2 h-[70vh] glass-morphism"
+    >
       <Map 
         stations={stations}
         userLocation={userLocation}
         onStationSelect={onStationSelect}
         selectedStation={selectedStation}
       />
-    </div>
+    </motion.div>
   );
 };

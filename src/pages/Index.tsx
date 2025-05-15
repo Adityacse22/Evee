@@ -13,6 +13,7 @@ import { StationList } from "@/components/StationList";
 import { MapSection } from "@/components/MapSection";
 import { PageHeader } from "@/components/PageHeader";
 import { Zap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -66,49 +67,108 @@ export default function Index() {
     setFilter(newFilters);
   }, [setFilter]);
 
+  // Define animation variants
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 }
+  };
+
   return (
     <ThemeProvider>
       <AuthProvider>
-        <div className="min-h-screen flex flex-col gradient-bg">
+        <motion.div 
+          className="min-h-screen flex flex-col gradient-bg"
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
           <Navbar />
           
           <main className="flex-1 container mx-auto px-4 py-6 relative">
-            <PageHeader 
-              showFilters={showFilters} 
-              setShowFilters={setShowFilters}
-              showUserProfile={showUserProfile}
-              setShowUserProfile={setShowUserProfile}
-            />
+            <motion.div variants={itemVariants}>
+              <PageHeader 
+                showFilters={showFilters} 
+                setShowFilters={setShowFilters}
+                showUserProfile={showUserProfile}
+                setShowUserProfile={setShowUserProfile}
+              />
+            </motion.div>
 
             <Suspense fallback={<LoadingFallback />}>
               <NetworkStatusRing />
               
               {/* Filters Section */}
-              {showFilters && (
-                <FilterSection filters={filters} setFilters={handleFilterChange} />
-              )}
+              <AnimatePresence>
+                {showFilters && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <FilterSection filters={filters} setFilters={handleFilterChange} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
               
-              {showUserProfile ? (
-                <div className="animate-fade-in">
-                  <UserProfile showBookings={true} />
-                </div>
-              ) : (
-                <div className="grid lg:grid-cols-3 gap-6">
-                  <MapSection 
-                    stations={stations}
-                    userLocation={userLocation}
-                    selectedStation={selectedStation}
-                    onStationSelect={handleStationSelect}
-                  />
-                  
-                  <StationList 
-                    stations={stations}
-                    loading={loading}
-                    error={error}
-                    onBookStation={handleBooking}
-                  />
-                </div>
-              )}
+              <AnimatePresence mode="wait">
+                {showUserProfile ? (
+                  <motion.div 
+                    key="profile"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    className="mt-6"
+                  >
+                    <UserProfile showBookings={true} />
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    key="map-list"
+                    variants={itemVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="grid lg:grid-cols-3 gap-6 mt-6"
+                  >
+                    <MapSection 
+                      stations={stations}
+                      userLocation={userLocation}
+                      selectedStation={selectedStation}
+                      onStationSelect={handleStationSelect}
+                    />
+                    
+                    <StationList 
+                      stations={stations}
+                      loading={loading}
+                      error={error}
+                      onBookStation={handleBooking}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Suspense>
             
             {/* Gradient wave footer */}
@@ -122,7 +182,7 @@ export default function Index() {
             isOpen={bookingModalOpen}
             onClose={() => setBookingModalOpen(false)}
           />
-        </div>
+        </motion.div>
       </AuthProvider>
     </ThemeProvider>
   );

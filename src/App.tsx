@@ -7,7 +7,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
-import { Zap } from "lucide-react";
+import { Zap, Shield } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -17,15 +18,62 @@ const SuperAdminPanel = lazy(() => import("./pages/SuperAdminPanel"));
 
 // Create futuristic loading fallback component
 const LoadingFallback = () => (
-  <div className="h-screen w-screen flex items-center justify-center bg-cyber-dark">
-    <div className="animate-pulse-slow flex flex-col items-center">
-      <div className="text-6xl font-cyberpunk text-neon-blue neon-text-blue animate-neon-flicker mb-6">EVEE</div>
-      <Zap className="h-16 w-16 text-neon-blue animate-glow-pulse mb-8" />
-      <div className="w-64 h-1.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green rounded-full overflow-hidden">
-        <div className="h-full w-1/2 bg-white/30 animate-pulse"></div>
-      </div>
-      <p className="mt-4 font-mono text-neon-green">SYSTEM_INITIALIZING...</p>
-    </div>
+  <div className="h-screen w-screen flex items-center justify-center bg-cyber-darker">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col items-center"
+    >
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="text-6xl font-cyberpunk text-neon-blue neon-text-blue animate-neon-flicker mb-6"
+      >
+        SPARK<span className="text-neon-green">SLOT</span>
+      </motion.div>
+      
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1, rotate: 360 }}
+        transition={{ 
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+          delay: 0.5
+        }}
+        className="relative mb-8"
+      >
+        <Zap className="h-20 w-20 text-neon-blue animate-pulse-slow" />
+        <motion.div 
+          className="absolute inset-0"
+          animate={{ rotate: 360 }}
+          transition={{ 
+            duration: 3,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        >
+          <div className="h-full w-full rounded-full border-t-2 border-l-2 border-neon-purple/50" />
+        </motion.div>
+      </motion.div>
+      
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: "100%" }}
+        transition={{ delay: 0.8, duration: 1.5 }}
+        className="w-64 h-1.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green rounded-full overflow-hidden"
+      />
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="mt-4 font-mono text-neon-green"
+      >
+        INITIALIZING SYSTEMS<span className="animate-pulse">...</span>
+      </motion.p>
+    </motion.div>
   </div>
 );
 
@@ -61,14 +109,16 @@ const App = () => (
             }}
           />
           <BrowserRouter>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/super-admin" element={<SuperAdminPanel />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <AnimatePresence mode="wait">
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/super-admin" element={<SuperAdminPanel />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </AnimatePresence>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
