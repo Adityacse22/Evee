@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Filter as FilterIcon, Plug, Zap } from "lucide-react";
 import { PlugType, ChargingSpeed, Filter } from "@/types";
 
@@ -45,60 +44,66 @@ export const FilterSection = ({ filters, setFilters }: FilterSectionProps) => {
   };
 
   return (
-    <div className="mb-6 p-4 glass-card animate-fade-in">
-      <h2 className="font-medium mb-3">Filter Stations</h2>
+    <div className="mb-6 p-4 glass border border-neon-blue/30 animate-fade-in">
+      <h2 className="font-mono text-neon-blue mb-4 flex items-center">
+        <FilterIcon className="h-4 w-4 mr-2 text-neon-purple" />
+        FILTER_PARAMETERS
+      </h2>
       
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <h3 className="text-sm mb-2">Plug Types</h3>
+          <h3 className="text-sm font-mono text-white/70 mb-3">CONNECTOR_TYPES</h3>
           <div className="flex flex-wrap gap-2">
             {Object.values(PlugType).map(type => (
-              <Badge 
+              <button 
                 key={type}
-                variant={filters.plugTypes?.includes(type) ? "default" : "outline"}
-                className={`cursor-pointer transition-transform hover:scale-110 ${
-                  filters.plugTypes?.includes(type) ? 'pulse' : ''
+                className={`transition-all duration-300 px-3 py-1.5 rounded font-mono text-xs flex items-center gap-1.5 ${
+                  filters.plugTypes?.includes(type)
+                    ? 'bg-cyber-accent border border-neon-blue text-neon-blue shadow-neon-blue'
+                    : 'bg-cyber-dark/60 border border-white/20 text-white/60 hover:border-neon-blue/50 hover:text-neon-blue/50'
                 }`}
                 onClick={() => toggleFilter('plugTypes', type)}
               >
-                <Plug className="w-3 h-3 mr-1" />
+                <Plug className="w-3.5 h-3.5" />
                 {type}
-              </Badge>
+              </button>
             ))}
           </div>
         </div>
         
         <div>
-          <h3 className="text-sm mb-2">Charging Speed</h3>
+          <h3 className="text-sm font-mono text-white/70 mb-3">CHARGING_SPEED</h3>
           <div className="flex flex-wrap gap-2">
             {Object.values(ChargingSpeed).map(speed => (
-              <Badge 
+              <button 
                 key={speed}
-                variant={filters.chargingSpeed?.includes(speed) ? "default" : "outline"}
-                className={`cursor-pointer transition-transform hover:scale-110 ${
-                  filters.chargingSpeed?.includes(speed) ? 'pulse' : ''
+                className={`transition-all duration-300 px-3 py-1.5 rounded font-mono text-xs flex items-center gap-1.5 ${
+                  filters.chargingSpeed?.includes(speed)
+                    ? 'bg-cyber-accent border border-neon-purple text-neon-purple shadow-neon-purple'
+                    : 'bg-cyber-dark/60 border border-white/20 text-white/60 hover:border-neon-purple/50 hover:text-neon-purple/50'
                 }`}
                 onClick={() => toggleFilter('chargingSpeed', speed)}
               >
-                <Zap className="w-3 h-3 mr-1" />
+                <Zap className="w-3.5 h-3.5" />
                 {speed}
-              </Badge>
+              </button>
             ))}
           </div>
         </div>
         
         <div>
-          <h3 className="text-sm mb-2">Other Filters</h3>
+          <h3 className="text-sm font-mono text-white/70 mb-3">STATUS_FILTERS</h3>
           <div className="flex flex-wrap gap-2">
-            <Badge 
-              variant={filters.availability ? "default" : "outline"}
-              className={`cursor-pointer transition-transform hover:scale-110 ${
-                filters.availability ? 'pulse' : ''
+            <button 
+              className={`transition-all duration-300 px-3 py-1.5 rounded font-mono text-xs ${
+                filters.availability
+                  ? 'bg-cyber-accent border border-neon-green text-neon-green shadow-neon-green'
+                  : 'bg-cyber-dark/60 border border-white/20 text-white/60 hover:border-neon-green/50 hover:text-neon-green/50'
               }`}
               onClick={() => toggleFilter('availability', null)}
             >
-              Available Now
-            </Badge>
+              AVAILABLE_NOW
+            </button>
           </div>
         </div>
       </div>

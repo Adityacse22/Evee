@@ -16,10 +16,13 @@ import { Zap } from "lucide-react";
 
 // Loading fallback component
 const LoadingFallback = () => (
-  <div className="h-[70vh] w-full flex items-center justify-center">
+  <div className="h-[70vh] w-full flex items-center justify-center bg-cyber-dark">
     <div className="animate-pulse-slow flex flex-col items-center">
-      <Zap className="h-10 w-10 text-electric-500 mb-2" />
-      <p className="text-muted-foreground">Loading content...</p>
+      <div className="text-6xl font-cyberpunk text-neon-blue neon-text-blue animate-neon-flicker mb-4">LOADING</div>
+      <Zap className="h-12 w-12 text-neon-blue animate-glow-pulse mb-4" />
+      <div className="w-48 h-1 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green rounded-full overflow-hidden">
+        <div className="h-full w-1/2 bg-white/30 animate-pulse"></div>
+      </div>
     </div>
   </div>
 );
@@ -69,11 +72,6 @@ export default function Index() {
         <div className="min-h-screen flex flex-col gradient-bg">
           <Navbar />
           
-          {/* Animated header with charge stream effect */}
-          <div className="bg-gradient-to-r from-blue-600/10 via-electric-500/10 to-purple-600/10 dark:from-blue-600/20 dark:via-electric-500/20 dark:to-purple-600/20 p-2">
-            <div className="charge-stream"></div>
-          </div>
-          
           <main className="flex-1 container mx-auto px-4 py-6 relative">
             <PageHeader 
               showFilters={showFilters} 
@@ -115,7 +113,7 @@ export default function Index() {
             
             {/* Gradient wave footer */}
             <div className="h-16 relative mt-8">
-              <div className="gradient-wave"></div>
+              <div className="cyber-wave"></div>
             </div>
           </main>
           

@@ -63,6 +63,21 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+                // Cyberpunk theme colors
+                neon: {
+                    blue: '#00FFFF',
+                    green: '#39FF14',
+                    purple: '#9D00FF',
+                    pink: '#FF00F5',
+                    yellow: '#FFFF00',
+                },
+                cyber: {
+                    dark: '#0F0F19',
+                    darker: '#080810',
+                    light: '#1E1E2F',
+                    accent: '#392F5A',
+                    highlight: '#31274A',
+                },
                 electric: {
                     50: '#f0faff',
                     100: '#e0f5fe',
@@ -124,6 +139,23 @@ export default {
                     '0%': { transform: 'translateY(10px)', opacity: '0' },
                     '100%': { transform: 'translateY(0)', opacity: '1' },
                 },
+                'glow-pulse': {
+                    '0%, 100%': { boxShadow: '0 0 5px 2px var(--glow-color, rgba(0, 255, 255, 0.7))' },
+                    '50%': { boxShadow: '0 0 15px 5px var(--glow-color, rgba(0, 255, 255, 0.9))' },
+                },
+                'float': {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-10px)' },
+                },
+                'neon-text-flicker': {
+                    '0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%': { textShadow: '0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px var(--neon-color, #00FFFF), 0 0 82px var(--neon-color, #00FFFF), 0 0 92px var(--neon-color, #00FFFF), 0 0 102px var(--neon-color, #00FFFF), 0 0 151px var(--neon-color, #00FFFF)' },
+                    '20%, 24%, 55%': { textShadow: 'none' },
+                },
+                'holographic-move': {
+                    '0%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                    '100%': { backgroundPosition: '0% 50%' },
+                },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -131,11 +163,50 @@ export default {
                 'fade-in': 'fade-in 0.3s ease-out',
                 'fade-out': 'fade-out 0.3s ease-out',
                 'slide-in': 'slide-in 0.4s ease-out',
+                'glow-pulse': 'glow-pulse 2s infinite ease-in-out',
+                'float': 'float 6s ease-in-out infinite',
+                'neon-flicker': 'neon-text-flicker 1.5s infinite alternate',
+                'holographic': 'holographic-move 6s ease infinite',
 			},
             fontFamily: {
-                sans: ['Roboto', 'sans-serif'],
-                display: ['Roboto', 'sans-serif'],
-            }
+                sans: ['Orbitron', 'sans-serif'],
+                display: ['Orbitron', 'sans-serif'],
+                mono: ['Share Tech Mono', 'monospace'],
+                cyberpunk: ['Orbitron', 'sans-serif'],
+            },
+            backgroundImage: {
+                'cyber-grid': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a1a2e' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                'cyber-radial': 'radial-gradient(circle, rgba(15, 15, 25, 0.8) 0%, rgba(15, 15, 25, 1) 100%)',
+                'neon-grid': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300FFFF' stroke-width='0.5' stroke-opacity='0.2'%3E%3Cpath d='M0 20h40M20 0v40'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+            },
+            boxShadow: {
+                'neon-blue': '0 0 5px theme(colors.neon.blue), 0 0 10px theme(colors.neon.blue)',
+                'neon-green': '0 0 5px theme(colors.neon.green), 0 0 10px theme(colors.neon.green)',
+                'neon-purple': '0 0 5px theme(colors.neon.purple), 0 0 10px theme(colors.neon.purple)',
+                'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+                'neo': '5px 5px 10px #0c0c14, -5px -5px 10px #12121e',
+                'neo-inset': 'inset 5px 5px 10px #0c0c14, inset -5px -5px 10px #12121e',
+            },
+            dropShadow: {
+                'neon-text-blue': [
+                    '0 0 7px rgba(0, 255, 255, 0.5)',
+                    '0 0 10px rgba(0, 255, 255, 0.5)',
+                    '0 0 21px rgba(0, 255, 255, 0.5)',
+                ],
+                'neon-text-green': [
+                    '0 0 7px rgba(57, 255, 20, 0.5)',
+                    '0 0 10px rgba(57, 255, 20, 0.5)',
+                    '0 0 21px rgba(57, 255, 20, 0.5)',
+                ],
+                'neon-text-purple': [
+                    '0 0 7px rgba(157, 0, 255, 0.5)',
+                    '0 0 10px rgba(157, 0, 255, 0.5)',
+                    '0 0 21px rgba(157, 0, 255, 0.5)',
+                ],
+            },
+            backdropBlur: {
+                xs: '2px',
+            },
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

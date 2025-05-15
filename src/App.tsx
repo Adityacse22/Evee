@@ -15,14 +15,16 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const SuperAdminPanel = lazy(() => import("./pages/SuperAdminPanel"));
 
-// Create loading fallback component
+// Create futuristic loading fallback component
 const LoadingFallback = () => (
-  <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+  <div className="h-screen w-screen flex items-center justify-center bg-cyber-dark">
     <div className="animate-pulse-slow flex flex-col items-center">
-      <Zap className="h-12 w-12 text-teal-500 mb-3" />
-      <div className="bg-gradient-to-r from-teal-400 via-teal-500 to-cyan-600 bg-clip-text text-transparent text-lg font-medium">
-        Loading EVEE...
+      <div className="text-6xl font-cyberpunk text-neon-blue neon-text-blue animate-neon-flicker mb-6">EVEE</div>
+      <Zap className="h-16 w-16 text-neon-blue animate-glow-pulse mb-8" />
+      <div className="w-64 h-1.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green rounded-full overflow-hidden">
+        <div className="h-full w-1/2 bg-white/30 animate-pulse"></div>
       </div>
+      <p className="mt-4 font-mono text-neon-green">SYSTEM_INITIALIZING...</p>
     </div>
   </div>
 );
@@ -45,7 +47,19 @@ const App = () => (
       <AuthProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner closeButton position="bottom-right" />
+          <Sonner 
+            closeButton 
+            position="bottom-right" 
+            toastOptions={{
+              style: {
+                background: 'rgba(15, 15, 25, 0.9)',
+                color: '#00FFFF',
+                border: '1px solid rgba(0, 255, 255, 0.3)',
+                fontFamily: "'Share Tech Mono', monospace",
+                backdropFilter: 'blur(10px)',
+              }
+            }}
+          />
           <BrowserRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>

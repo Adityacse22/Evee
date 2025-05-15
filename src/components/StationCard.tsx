@@ -1,10 +1,8 @@
 
 import { memo } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ChargingSpeed, PlugType, Station } from "../types";
 import { Plug, Zap, Clock, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface StationCardProps {
   station: Station;
@@ -26,111 +24,124 @@ export const StationCard = memo(({ station, onBookClick }: StationCardProps) => 
   } = station;
 
   // Function to get appropriate color for availability
-  const getAvailabilityColor = () => {
+  const getAvailabilityStyle = () => {
     const ratio = availability.available / availability.total;
-    if (ratio > 0.5) return "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-300";
-    if (ratio > 0) return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300";
-    return "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-300";
+    if (ratio > 0.5) return "text-neon-green border-neon-green";
+    if (ratio > 0) return "text-neon-yellow border-neon-yellow";
+    return "text-red-500 border-red-500";
   };
   
-  // Function to get chip color for charging speed
-  const getChargingSpeedColor = (speed: ChargingSpeed) => {
+  // Function to get style for charging speed
+  const getChargingSpeedStyle = (speed: ChargingSpeed) => {
     switch (speed) {
       case ChargingSpeed.LEVEL_1:
-        return "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300";
+        return "border-neon-blue text-neon-blue";
       case ChargingSpeed.LEVEL_2:
-        return "bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-300";
+        return "border-neon-purple text-neon-purple";
       case ChargingSpeed.DC_FAST:
-        return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300";
+        return "border-neon-green text-neon-green";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+        return "border-gray-500 text-gray-500";
     }
   };
 
   return (
-    <Card className="border border-slate-200 dark:border-slate-700 shadow-sm">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-t-xl"></div>
+    <div className="cyber-card bg-cyber-light/20 backdrop-blur-md overflow-hidden">
+      {/* Glowing top accent line */}
+      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green"></div>
       
-      <CardHeader>
+      {/* Station info */}
+      <div className="p-4">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-xl text-teal-600 dark:text-teal-400">
+            <h3 className="text-xl font-cyberpunk font-bold text-neon-blue drop-shadow-neon-text-blue">
               {name}
-            </CardTitle>
-            <CardDescription className="mt-1 flex items-center">
-              <MapPin className="h-3 w-3 mr-1" /> {address}
-            </CardDescription>
+            </h3>
+            <p className="mt-1 flex items-center text-white/70 font-mono text-sm">
+              <MapPin className="h-3 w-3 mr-1 text-neon-purple" /> {address}
+            </p>
           </div>
           <div className="flex flex-col items-end">
-            <div className="flex items-center gap-1">
-              <span className="text-amber-500">★</span>
-              <span className="font-semibold">{rating}</span>
+            <div className="flex items-center gap-1 bg-cyber-accent px-2 py-0.5 rounded">
+              <span className="text-neon-green font-mono">{rating}</span>
+              <span className="text-neon-green">★</span>
             </div>
           </div>
         </div>
-      </CardHeader>
-      
-      <CardContent>
-        <div className="space-y-4">
+        
+        <div className="mt-4 space-y-3">
+          {/* Plug types */}
           <div className="flex flex-wrap gap-2">
             {plugTypes.map((plugType) => (
-              <Badge key={plugType} variant="outline" className="flex items-center gap-1">
+              <span 
+                key={plugType} 
+                className="text-xs border border-neon-blue/70 text-neon-blue px-2 py-1 rounded flex items-center gap-1 bg-cyber-dark"
+              >
                 <Plug className="h-3 w-3" /> {plugType}
-              </Badge>
+              </span>
             ))}
           </div>
           
+          {/* Charging speeds */}
           <div className="flex flex-wrap gap-2">
             {chargingSpeed.map((speed) => (
-              <Badge 
+              <span 
                 key={speed} 
-                className={`${getChargingSpeedColor(speed)} flex items-center gap-1`}
-                variant="secondary"
+                className={`text-xs border px-2 py-1 rounded flex items-center gap-1 bg-cyber-dark ${getChargingSpeedStyle(speed)}`}
               >
                 <Zap className="h-3 w-3" /> {speed}
-              </Badge>
+              </span>
             ))}
           </div>
           
-          <div className="flex justify-between items-center p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
+          {/* Price and availability */}
+          <div className="flex justify-between items-center p-3 rounded-lg neo bg-cyber-dark">
             <div>
-              <p className="text-sm font-medium">Price</p>
-              <p className="text-lg font-bold">${price}/{priceUnit}</p>
+              <p className="text-xs font-mono text-white/70">PRICE</p>
+              <p className="text-xl font-mono font-bold text-neon-green neon-text-green">${price}/{priceUnit}</p>
             </div>
             
             <div>
-              <p className="text-sm font-medium">Availability</p>
-              <Badge className={`${getAvailabilityColor()}`}>
-                {availability.available}/{availability.total} available
-              </Badge>
+              <p className="text-xs font-mono text-white/70">AVAILABILITY</p>
+              <p className={`text-sm font-mono font-bold ${getAvailabilityStyle()}`}>
+                {availability.available}/{availability.total}
+              </p>
             </div>
           </div>
           
+          {/* Wait time */}
           {waitTime !== undefined && waitTime > 0 && (
-            <div className="text-sm flex items-center">
-              <Clock className="h-3 w-3 mr-1 text-muted-foreground" />
-              <span className="font-medium">Estimated wait:</span> ~{waitTime} minutes
+            <div className="text-sm flex items-center font-mono text-white/70">
+              <Clock className="h-3 w-3 mr-1 text-neon-purple" />
+              <span className="font-medium">ETA:</span> ~{waitTime} min
             </div>
           )}
           
+          {/* Amenities */}
           {amenities.length > 0 && (
-            <div className="text-sm">
-              <span className="font-medium">Amenities:</span> {amenities.join(", ")}
+            <div className="text-xs font-mono">
+              <span className="text-white/70">FACILITIES:</span> 
+              <span className="text-neon-blue ml-1">{amenities.join(" · ")}</span>
             </div>
           )}
         </div>
-      </CardContent>
+      </div>
       
-      <CardFooter className="flex justify-end">
-        <Button 
+      {/* Booking action */}
+      <div className="px-4 pb-4 pt-2 flex justify-end">
+        <button
           onClick={() => onBookClick(station)}
           disabled={availability.available === 0}
-          className="bg-teal-600 hover:bg-teal-700 text-white transition-colors"
+          className={`cyber-button ${
+            availability.available > 0 
+              ? "border-neon-green text-neon-green hover:shadow-neon-green" 
+              : "border-red-500/50 text-red-500/50 opacity-60 cursor-not-allowed"
+          }`}
         >
-          {availability.available > 0 ? "Book Now" : "Currently Full"}
-        </Button>
-      </CardFooter>
-    </Card>
+          {availability.available > 0 ? "BOOK NOW" : "UNAVAILABLE"}
+        </button>
+      </div>
+    </div>
   );
 });
 

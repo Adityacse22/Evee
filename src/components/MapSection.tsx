@@ -16,7 +16,7 @@ export const MapSection = ({
   onStationSelect
 }: MapSectionProps) => {
   return (
-    <div className="lg:col-span-2 h-[70vh] glass-card">
+    <div className="lg:col-span-2 h-[70vh] glass border border-neon-blue/30">
       <Map 
         stations={stations}
         userLocation={userLocation}
